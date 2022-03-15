@@ -24,7 +24,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (Time.fixedTime > _tempsDebutInvulnerabilite + EnnemyBehaviour.DelaisInvulnerabilite)
+        if (Time.fixedTime > _tempsDebutInvulnerabilite + SnakeEnnemyBehaviour.DelaisInvulnerabilite && Time.fixedTime > _tempsDebutInvulnerabilite + BatEnnemyBehaviour.DelaisInvulnerabilite)
             _invulnerable = false;
     }
 

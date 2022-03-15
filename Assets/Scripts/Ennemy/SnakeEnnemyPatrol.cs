@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class EnnemyPatrol : MonoBehaviour
+public class SnakeEnnemyPatrol : MonoBehaviour
 {
     /// <summary>
     /// Vitesse de l'objet en patrouille

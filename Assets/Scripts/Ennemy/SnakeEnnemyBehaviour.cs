@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class EnnemyBehaviour : MonoBehaviour
+public class SnakeEnnemyBehaviour : MonoBehaviour
 {
     /// <summary>
     /// Point de vie du personnage
     /// </summary>
     [SerializeField]
     private int _pv = 2;
-    /// <summary>
-    /// Angle de tolérange pour le calcul du saut sur la tête
-    /// </summary>
-    [SerializeField]
-    private float _toleranceAngle = 1.5f;
     /// <summary>
     /// Décrit la durée de l'invulnaribilité
     /// </summary>
@@ -53,7 +48,7 @@ public class EnnemyBehaviour : MonoBehaviour
             _animator.SetTrigger("Destruction");
             GameManager.Instance.PlayerData.IncrScore(this._pointDestruction);
             this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            this.gameObject.GetComponent<EnnemyPatrol>().enabled = false;
+            this.gameObject.GetComponent<SnakeEnnemyPatrol>().enabled = false;
             GameObject.Destroy(this.transform.parent.gameObject, 0.5f);
             this._destructionEnCours = true;
         }
