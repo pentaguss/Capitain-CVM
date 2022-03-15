@@ -55,6 +55,7 @@ public class BatEnnemyBehaviour : MonoBehaviour
 
         if (Time.fixedTime > _tempsDebutInvulnerabilite + DelaisInvulnerabilite)
             _invulnerable = false;
+            this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -75,6 +76,7 @@ public class BatEnnemyBehaviour : MonoBehaviour
             {
                 this._pv--;
                 _animator.SetTrigger("DegatActif");
+                this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
                 _tempsDebutInvulnerabilite = Time.fixedTime;
                 _invulnerable = true;
             }
