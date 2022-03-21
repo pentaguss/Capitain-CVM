@@ -28,17 +28,12 @@ public class GameManager : MonoBehaviour
     #region Methods
     private void Awake()
     {
-        if (_instance != null)
-            Destroy(this.gameObject);
-        else
-        {
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
 
             // Initialisation des données de jeu
             LoadPlayerData();
             _audioManager = this.GetComponent<AudioManager>();
-        }
     }
 
     private void Start()
@@ -58,6 +53,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log(jdata);
         //PlayerData read = PlayerDataJson.ReadJson(jdata);
         //Debug.Log(read.Vie);
+        
     }
 
     public void SaveData()
@@ -127,6 +123,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangerScene(string nomScene)
     {
+        Debug.Log("scene nom ");
+        Debug.Log(nomScene);
         _audioManager.StopAudio(0.3f);
         GameObject.Find("Fondu").SetActive(true);
         SceneManager.LoadScene(nomScene);
@@ -134,6 +132,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangementScene(Scene current, Scene next)
     {
+        Debug.Log("scene");
+        Debug.Log(current);
+        if(GameObject.Find("Fondu"))
         GameObject.Find("Fondu").SetActive(false);
     }
 

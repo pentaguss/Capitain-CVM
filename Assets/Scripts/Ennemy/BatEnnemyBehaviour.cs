@@ -35,7 +35,7 @@ public class BatEnnemyBehaviour : MonoBehaviour
     /// Défini si l'objet est en cours de destruction
     /// </summary>
     private bool _destructionEnCours = false;
-
+    
     private void Start()
     {
         _animator = this.gameObject.GetComponent<Animator>();
@@ -48,16 +48,30 @@ public class BatEnnemyBehaviour : MonoBehaviour
             _animator.SetTrigger("Destruction");
             GameManager.Instance.PlayerData.IncrScore(this._pointDestruction);
             this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            this.gameObject.GetComponent<SnakeEnnemyPatrol>().enabled = false;
             GameObject.Destroy(this.transform.parent.gameObject, 0.5f);
             this._destructionEnCours = true;
         }
 
-        if (Time.fixedTime > _tempsDebutInvulnerabilite + DelaisInvulnerabilite)
+        if ( _invulnerable && Time.fixedTime > _tempsDebutInvulnerabilite + DelaisInvulnerabilite)
+        {
+
             _invulnerable = false;
             this.gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Player") && !_invulnerable)
+        {
+             this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+             _tempsDebutInvulnerabilite = Time.fixedTime;
+             _invulnerable = true;
+             this._pv--;
+             _animator.SetTrigger("DegatActif");
+
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("Player") && !_invulnerable)
@@ -68,18 +82,4 @@ public class BatEnnemyBehaviour : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Player"))
-        {
-            if (!_invulnerable)
-            {
-                this._pv--;
-                _animator.SetTrigger("DegatActif");
-                this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-                _tempsDebutInvulnerabilite = Time.fixedTime;
-                _invulnerable = true;
-            }
-        }
-    }
 }

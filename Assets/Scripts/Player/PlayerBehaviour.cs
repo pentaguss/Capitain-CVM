@@ -39,6 +39,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    public void CallNewHat(Sprite sp) 
+    {
+        GameObject player_hat = this.gameObject.transform.GetChild(0).gameObject;
+        player_hat.GetComponent<SpriteRenderer>().sprite = sp;
+        player_hat.transform.localScale = new Vector3((float)0.12, (float)0.12, (float)0);
+        player_hat.transform.localPosition = new Vector3((float)0.2, (float)0.3, (float)0.1);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Tilemap Water"))

@@ -96,7 +96,11 @@ public class PlayerMouvement : MonoBehaviour
             _animator.SetFloat("Speed", Mathf.Abs(_direction.x * _vitesse));
 
             if ((_direction.x < 0) != _sr.flipX)
+            {
                 _sr.flipX = _direction.x <= 0;
+                this.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().flipX = _sr.flipX;
+                this.gameObject.transform.GetChild(0).gameObject.transform.localPosition = new Vector3((float)-0.25, (float)0.3, (float)0.1);
+            }
         }
     }
 

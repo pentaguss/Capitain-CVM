@@ -71,6 +71,7 @@ public class SnakeEnnemyBehaviour : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Player"))
         {
+            
             if (!_invulnerable)
             {
                 this._pv--;

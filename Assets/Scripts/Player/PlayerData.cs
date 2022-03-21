@@ -45,6 +45,11 @@ public class PlayerData
     /// Liste des coffres ouverts dans le jeu
     /// </summary>
     private List<string> _chestOpenList;
+
+    private List<string> _foundHatList;
+
+    private int _highest_niveau=1;
+
     /// <summary>
     /// Représente le maximum d'énergie du personnage
     /// </summary>
@@ -67,13 +72,18 @@ public class PlayerData
     public int Energie { get { return this._energie; } }
     public int Vie { get { return this._vie; } }
     public int Score { get { return this._score; } }
+    public int Niveau { get { return this._highest_niveau; } }
     public string[] ListeCoffreOuvert { get { return this._chestOpenList.ToArray(); } }
+
+    public string[] ListeChapeauDecouverts { get { return this._foundHatList.ToArray(); } }
+
 
     public PlayerData()
     {
         this._vie = 0;
         this._energie = 0;
         this._score = 0;
+        this._highest_niveau = 1;
         this._volumeGeneral = 0;
         this._volumeMusique = 0;
         this._volumeEffet = 0;
@@ -81,16 +91,18 @@ public class PlayerData
         this.UIPerteVie = null;
         this.Gameover = null;
         this._chestOpenList = new List<string>();
+        this._foundHatList = new List<string>();
     }
 
     public PlayerData(int vie = 1, int energie = 2, int score = 0,
-        float volumeGeneral = 0, float volumeMusique = 0, float volumeEffet = 0,
+        float volumeGeneral = 0, float volumeMusique = 0,float volumeEffet = 0,int niveau = 1,
         System.Action uiPerteEnergie = null, System.Action uiPerteVie = null,
-        System.Action gameOver = null, List<string> ChestList = null)
+        System.Action gameOver = null, List<string> ChestList = null, List<string> HatList = null)
     {
         this._vie = vie;
         this._energie = energie;
         this._score = score;
+        this._highest_niveau = niveau;
         this._volumeGeneral = volumeGeneral;
         this._volumeMusique = volumeMusique;
         this._volumeEffet = volumeEffet;
@@ -100,6 +112,9 @@ public class PlayerData
         this._chestOpenList = new List<string>();
         if (ChestList != null)
             this._chestOpenList = ChestList;
+        this._foundHatList = new List<string>();
+        if (HatList != null)
+            this._foundHatList = HatList;
     }
 
     /// <summary>
@@ -124,11 +139,11 @@ public class PlayerData
         this._vie--;
         this.UIPerteVie();
         if (this._vie <= 0)
-            this.Gameover();
+           GameManager.Instance.RechargerNiveau();
         else
         {
             this.IncrEnergie(MAX_ENERGIE);
-            GameManager.Instance.RechargerNiveau();
+
         }
     }
 
@@ -147,6 +162,7 @@ public class PlayerData
         
         this.UIPerteEnergie();
     }
+
 
     /// <summary>
     /// Permet d'augmenter la vie
@@ -167,6 +183,10 @@ public class PlayerData
         this._score += gain;
     }
 
+    public void IncrNiveau()
+    {
+        this._highest_niveau++;
+    }
     /// <summary>
     /// Ajoute le nom du coffre à la liste
     /// </summary>
@@ -176,14 +196,31 @@ public class PlayerData
         this._chestOpenList.Add(nom);
     }
 
+    public void AjouterChapeauTrouver(string nom)
+    {
+        this._foundHatList.Add(nom);
+    }
+
     /// <summary>
     /// Détermine si le coffre est contenu dans la liste
     /// des coffres ouverts
     /// </summary>
     /// <param name="nom">Nom du coffre à vérifier</param>
     /// <returns>true si le coffre est ouvert, false sinon</returns>
+
     public bool AvoirOuvertureCoffre(string nom)
     {
         return this._chestOpenList.Contains(nom);
+    }
+    public bool AvoirDecouverteChapeau(string nom)
+    {
+        return this._foundHatList.Contains(nom);
+    }
+
+    public void GameOver()
+    {
+        this._vie = 1;
+        this._score = 0;
+        this._energie = 2;
     }
 }

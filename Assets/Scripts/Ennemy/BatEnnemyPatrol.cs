@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -17,6 +16,7 @@ public class BatEnnemyPatrol : MonoBehaviour
 
     [SerializeField]
     private float Ondulation = 0f;
+
     /// <summary>
     /// Référence vers la cible actuelle de l'objet
     /// </summary>
@@ -33,7 +33,8 @@ public class BatEnnemyPatrol : MonoBehaviour
     /// Référence vers le sprite Renderer
     /// </summary>
     private SpriteRenderer _sr;
-
+    
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -44,10 +45,16 @@ public class BatEnnemyPatrol : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        Vector3 direction = _cible.position - this.transform.position;
-        this.transform.position.Set(this.transform.position.x, (this.transform.position.y)+10.0f, this.transform.position.z);
-        this.transform.Translate(direction.normalized * _vitesse * Time.deltaTime, Space.World);
+    {  
+        Vector3 direction = _cible.position - this.transform.position ;
+
+        float x = direction.x;
+        float y = (float)Math.Sin(Ondulation * this.gameObject.transform.position.x);
+        float z = direction.z;
+
+        Vector3 final = new Vector3(x, y, z);
+
+        this.transform.Translate(final * _vitesse * Time.deltaTime, Space.World);
 
         if (direction.x < 0 && !_sr.flipX) _sr.flipX = true;
         else if (direction.x > 0 && _sr.flipX) _sr.flipX = false;

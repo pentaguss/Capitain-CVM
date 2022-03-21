@@ -18,6 +18,9 @@ public class ScoreUI : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(GameManager.Instance);
+        Debug.Log(GameManager.Instance.PlayerData);
+        Debug.Log(GameManager.Instance.PlayerData.Score);
         _text.text = GameManager.Instance.PlayerData.Score.ToString();
     }
 }
